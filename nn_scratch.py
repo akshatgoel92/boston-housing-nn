@@ -191,33 +191,28 @@ class NeuralNet(object):
             train_cost = self.get_cost(train_preds, self.train_labels)
            
             if iteration % 100 == 0:
-                
                 print("The training cost is: " + str(train_cost))
-
-    # This function implements check shapes            
-    def check_shapes(dZL, A, W, b, Z):
-
-        print('dZL shape:')
-        print(dZL.shape)
-        
-        print('W shape:')
-        print({key: W[key].shape for key in W.keys()})
-        
-        print('A shape:')
-        print({key: A[key].shape for key in A.keys()})
-        
-        print('b shape:')
-        print({key: b[key].shape for key in b.keys()})
-        
-        print('Z shape:')
-        print({key: Z[key].shape for key in Z.keys()})
 
 
 # Input: Load and process data
-def process_data(X):
+def load_data(test_size, random_state):
 
- 	transformer = RobustScaler().fit(X)
- 	return(transformer.transform(X))
+    X, y = load_boston(return_X_y = True)
+    X_train, X_test, y_train, y_test = train_test_split(X, 
+                                                        y, 
+                                                        test_size=test_size, 
+                                                        random_state=random_state)
+
+    # Prepare dimensions of test data
+    y_train = y_train.reshape(len(y_train), 1)
+    y_test = y_test.reshape(len(y_test), 1)
+    
+    # Perform transformations
+    data = [X_train, X_test, y_train, y_test]
+    results = [RobustScaler().fit(X).transform(X) for X in data]
+ 	
+    # Return statement
+    return(*results, )
 
                 
 # Now we will execute the script
@@ -226,27 +221,18 @@ def process_data(X):
 # Then we will train the neural network 
 # Then we will make predictions
 if __name__ == '__main__':
-    
-
-    # Set the parameters here
-    X, y = load_boston(return_X_y = True)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-
-    # Prepare dimensions of test data
-    y_train = y_train.reshape(len(y_train), 1)
-    y_test = y_test.reshape(len(y_test), 1)
 
     # Process data
-    X_train, X_test = process_data(X_train), process_data(X_test), 
-    y_train, y_test = process_data(y_train), process_data(y_test)
+    X_train, X_test, y_train, y_test = load_data(test_size=0.33, random_state=42)
     
     # Set the architecture
     # Add in the input layer
     # Set the learning rate 
     # Set the number of iterations
     arch = [len(X_train), 600, 575, 500, 450, 400, 350, len(y_train)]
-    rate = 0.6
     iterations = 50000
+    rate = 0.6
+
     
     # Create a neural net object
     # Train this object 
