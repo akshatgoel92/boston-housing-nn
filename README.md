@@ -1,9 +1,9 @@
-# boston-housing-nn
+# nn-scratch
  
- - This repository contains code for a raw numpy neural network to predict Boston house prices. 
+ - This repository contains code for different kinds of neural networks in raw numpy.
  
  - The main purpose of this code is to learn how neural nets work under the hood.
  
- - To reproduce feel free to download this repository and run the code yourself. 
+ - Feel free to download and run the code yourself!
  
- - The dependencies are listed at the top of the script. 
+ 
