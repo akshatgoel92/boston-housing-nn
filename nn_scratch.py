@@ -195,9 +195,10 @@ class NeuralNet(object):
 
 
 # Input: Load and process data
-def load_data(test_size, random_state):
-
-    X, y = load_boston(return_X_y = True)
+def load_data(path, x_name, y_name, test_size, random_state):
+    
+    df = pd.read_csv(path)
+    X, y = np.array(df[x_name]), np.array(df[y_name])
     X_train, X_test, y_train, y_test = train_test_split(X, 
                                                         y, 
                                                         test_size=test_size, 
